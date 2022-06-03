@@ -40,9 +40,9 @@ RegisterServerEvent('qb-truckrobbery:server:activateMission', function()
 	end
 end)
 
-RegisterServerEvent('qb-armoredtruckheist:server:callCops', function(streetLabel, coords)
+--[[RegisterServerEvent('qb-armoredtruckheist:server:callCops', function(streetLabel, coords)
     TriggerClientEvent("qb-armoredtruckheist:client:robberyCall", -1, streetLabel, coords)
-end)
+end)]]
 
 RegisterServerEvent('qb-truckrobbery:zawiadompsy', function(x ,y, z)
     TriggerClientEvent('qb-truckrobbery:InfoForLspd', -1, x, y, z)

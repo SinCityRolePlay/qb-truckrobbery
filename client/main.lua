@@ -36,11 +36,29 @@ function CheckGuards()
 end
 
 function AlertPolice()
-    local a, b, c = table.unpack(GetEntityCoords(transport))
-    local AlertCoordA = tonumber(string.format("%.2f", a))
-    local AlertCoordB = tonumber(string.format("%.2f", b))
-    local AlertCoordC = tonumber(string.format("%.2f", c))
-    TriggerServerEvent('qb-truckrobbery:zawiadompsy', AlertCoordA, AlertCoordB, AlertCoordC)
+    --local a, b, c = table.unpack(GetEntityCoords(transport))
+    --local AlertCoordA = tonumber(string.format("%.2f", a))
+    --local AlertCoordB = tonumber(string.format("%.2f", b))
+    --local AlertCoordC = tonumber(string.format("%.2f", c))
+    --TriggerServerEvent('qb-truckrobbery:zawiadompsy', AlertCoordA, AlertCoordB, AlertCoordC)
+    local data = exports['cd_dispatch']:GetPlayerInfo()
+    TriggerServerEvent('cd_dispatch:AddNotification', {
+        job_table = {'police'}, 
+        coords = data.coords,
+        title = '10-90D - Truck robbery in progress',
+        message = 'Truck Robbery in progress at'..data.street..' suspect is a '..data.sex..'.', 
+        flash = 1,
+        unique_id = tostring(math.random(0000000,9999999)),
+        blip = {
+            sprite = 58, 
+            scale = 1.2, 
+            colour = 59,
+            flashes = true, 
+            text = '10-90d - Truck robbery in progress',
+            time = (5*60*1000),
+            sound = 1,
+        }
+    })
     Wait(500)
 end
 
@@ -188,24 +206,42 @@ end)
 
 RegisterNetEvent('qb-armoredtruckheist:client:911alert', function()
     if PoliceAlert == 0 then
-        local transCoords = GetEntityCoords(transport)
+        --local transCoords = GetEntityCoords(transport)
 
-        local s1, s2 = GetStreetNameAtCoord(transCoords.x, transCoords.y, transCoords.z)
-        local street1 = GetStreetNameFromHashKey(s1)
-        local street2 = GetStreetNameFromHashKey(s2)
-        local streetLabel = street1
-        if street2 ~= nil then
+        --local s1, s2 = GetStreetNameAtCoord(transCoords.x, transCoords.y, transCoords.z)
+        --local street1 = GetStreetNameFromHashKey(s1)
+        --local street2 = GetStreetNameFromHashKey(s2)
+        --local streetLabel = street1
+        --[[if street2 ~= nil then
             streetLabel = streetLabel .. " " .. street2
-        end
+        end]]
 
-        TriggerServerEvent("qb-armoredtruckheist:server:callCops", streetLabel, transCoords)
+        --TriggerServerEvent("qb-armoredtruckheist:server:callCops", streetLabel, transCoords)
+        local data = exports['cd_dispatch']:GetPlayerInfo()
+        TriggerServerEvent('cd_dispatch:AddNotification', {
+            job_table = {'police'}, 
+            coords = data.coords,
+            title = '10-90D - Possible truck robbery in progress',
+            message = 'Possible truck robbery in progress at'..data.street..' suspect is a '..data.sex..'.', 
+            flash = 1,
+            unique_id = tostring(math.random(0000000,9999999)),
+            blip = {
+                sprite = 58, 
+                scale = 1.2, 
+                colour = 59,
+                flashes = true, 
+                text = '10-90D - Possible truck robbery in progress',
+                time = (5*60*1000),
+                sound = 1,
+            }
+        })
 
         PlaySoundFrontend(-1, "Mission_Pass_Notify", "DLC_HEISTS_GENERAL_FRONTEND_SOUNDS", 0)
         PoliceAlert = 1
     end
 end)
 
-RegisterNetEvent('qb-armoredtruckheist:client:robberyCall', function(streetLabel, coords)
+--[[RegisterNetEvent('qb-armoredtruckheist:client:robberyCall', function(streetLabel, coords)
     if PlayerJob.name == "police" then
         local store = "Armored Truck"
 
@@ -253,7 +289,7 @@ RegisterNetEvent('qb-armoredtruckheist:client:robberyCall', function(streetLabel
             end
         end
     end
-end)
+end)]]
 
 RegisterNetEvent('qb-truckrobbery:letsBegin', function()
     MissionNotification()
